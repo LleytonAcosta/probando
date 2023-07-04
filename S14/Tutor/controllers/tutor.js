@@ -19,6 +19,8 @@ const getTutores = async (req,res = response )=>{
     })
 }
 
+//generando cambios
+
 const getTutor = async (req, res= response)=>{
     const {id} = req.params
     const tutor=  await Tutor.findById(id);
