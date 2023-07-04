@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+
+  #RUTA PARA ACCEDER A LA BASE DE DATOS DE EL TUTOR
+  tutor:
+    build: ./Tutor
+    depends_on:
+      - datatutor
+    environment:
+      - PORT=2500
+      - MONGODB_CNN=mongodb://datatutor:27017/GestionTutor
+    # ports:
+    #   - "2500:2500"   
+    
+    #RUTA PARA ACCEDER A LA BASE DE DATOS DE EL TUTORADO
+  tutorado:
+    build: ./Tutorado
+    depends_on:
+    - datatutorado
+    environment:
+     - PORT=2500
+     - MONGODB_CNN=mongodb://datatutorado:27017/GestionTutorado
+     # ports:
+     #   - "2500:2500"  
+    
+    #RUTA PARA ACCEDER A LA BASE DE DATOS DE LAS TUTORIAS
+  tutoria:
+    build: ./Tutoria
+    depends_on:
+      - datatutoria
+    environment:
+      - PORT=2500
+      - MONGODB_CNN=mongodb://datatutoria:27017/GestionTutoria
+    # ports:
+    #   - "2500:2500"  
+
+    #Imagenes de donde va a acceder para sacar la DB
+  datatutor:
+    image: mongo
+    #ports:
+    #   - "27017:27017"
+  datatutorado:
+    image: mongo
+    #ports:
+    #   - "27017:27017"
+  datatutoria:
+    image: mongo
+    #ports:
+    #   - "27017:27017"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "2500:2500"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      
+    #DEPENDENCIAS GENERADAS PARA INJECCION DEL NGINX
+    depends_on:
+      - tutor
+      - tutorado
+      - tutoria

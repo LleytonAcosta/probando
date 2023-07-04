@@ -1,0 +1,17 @@
+#realizar la importacion de los docker a utilizar
+
+#PRIMER CAPA DE MODO COMPILACION
+FROM node 
+
+#primer parametro el host y el segundo destino 
+COPY . /var/www 
+#direccionar todo el flujo a una carpeta (ejecucion)
+WORKDIR /var/www 
+#EJECUTAR EN EL DOCKER EL COMANDO
+RUN npm install 
+#puerto para el backend
+EXPOSE 2500
+
+#CAPA DE EJECUCION 
+ENTRYPOINT [ "npm" , "start" ]
+
